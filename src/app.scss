@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+}
+
+.container-app {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding: 2rem;
+
+  h1 {
+    font-weight: 1000;
+  }
+
+  .input-settings {
+    width: 50%;
+  }
+
+  .container-button {
+    display: flex;
+    padding: 5rem;
+
+    h3 {
+      font-weight: 700;
+    }
+
+    button {
+      width: 200px;
+      margin-left: 10px;
+    }
+  }
+}
