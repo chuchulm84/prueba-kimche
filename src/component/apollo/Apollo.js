@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./index.scss";
 
 import { useQuery, gql } from "@apollo/client";
@@ -21,46 +21,39 @@ const COUNTRIES_LIST = gql`
   }
 `;
 
-export const Apollo = ({
-  dataGrafo,
-  setDataGrafo,
-  setDataGrafoResult,
-  filterLanguages,
-  languagesCountry,
-}) => {
+export const Apollo = ({ dataGraph, setDataGraphResult, languagesCountry }) => {
   const { loading, error, data } = useQuery(COUNTRIES_LIST);
 
   useEffect(() => {
     if (data) {
-      setDataGrafoResult(data);
+      setDataGraphResult(data);
     }
   }, [data]);
 
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error :(</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
 
   return (
-    dataGrafo &&
-    dataGrafo !== null &&
-    dataGrafo.map(({ code, name, emoji, continent, languages }) => (
+    dataGraph &&
+    dataGraph.map(({ code, name, emoji, continent, languages }) => (
       <div className="container" key={code}>
         <h2>
-          {languagesCountry
+          {languagesCountry === "language"
             ? languages.map((e) => e.name).join(", ")
             : continent.name}{" "}
         </h2>
         <div className="container-box">
           <p>
-            <span>Bandera:</span> {emoji}
+            <label>Bandera:</label> {emoji}
           </p>
           <p>
-            <span>Codigo:</span> {code}
+            <label>Codigo:</label> {code}
           </p>
           <p>
-            <span>Pais:</span> {name}
+            <label>Pais:</label> {name}
           </p>
           <p>
-            <span>Lenguaje:</span> {languages.map((e) => e.name).join(", ")}
+            <label>Lenguaje:</label> {languages.map((e) => e.name).join(", ")}
           </p>
         </div>
       </div>

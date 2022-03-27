@@ -1,63 +1,75 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Apollo } from "./component/apollo/Apollo";
 import { Input, Button } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 
 import "./app.scss";
-const { Search } = Input;
 
 const App = () => {
-  const [dataGrafo, setDataGrafo] = useState(null);
-  const [dataGrafoResult, setDataGrafoResult] = useState(null);
-  const [countries, setcountries] = useState("");
-  const [languagesCountry, setLanguagesCountry] = useState(false);
+  const [dataGraph, setDataGraph] = useState(null);
+  const [dataGraphResult, setDataGraphResult] = useState(null);
+  const [search, setsearch] = useState("");
+  const [languagesCountry, setLanguagesCountry] = useState("");
+
+  console.log("languagesCountry", languagesCountry);
 
   const handleChange = (e) => {
-    setcountries(e.target.value);
-    filter(e.target.value);
+    const { value } = e.target;
+    setsearch(value);
+
+    if (value) {
+      filter(value);
+    }
   };
 
-  const filter = (search) => {
-    let result = dataGrafoResult.countries.filter((el) => {
-      if (
-        !languagesCountry
-          ? el.continent.name
-              .toString()
-              .toLowerCase()
-              .includes(search.toLowerCase()) ||
-            el.name.toString().toLowerCase().includes(search.toLowerCase())
-          : el.languages
-              .map((len) => len.name)
-              .toString()
-              .toLowerCase()
-              .includes(search.toLowerCase())
-      ) {
+  const filter = (value) => {
+    let result = dataGraphResult.countries.filter((el) => {
+      if (el.name.toLowerCase().includes(value.toLowerCase())) {
         return el;
+      } else if (languagesCountry === "continent") {
+        if (el.continent.name.toLowerCase().includes(value.toLowerCase())) {
+          return el;
+        }
+      } else {
+        if (
+          el.languages
+            .map((len) => len.name)
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        ) {
+          return el;
+        }
       }
     });
 
-    setDataGrafo(result);
+    setDataGraph(result);
   };
 
   return (
     <div className="container-app">
       <h1>COUNTRY SEARCH</h1>
-      <Search
+      <Input
+        prefix={<SearchOutlined />}
         placeholder="Ingrese Pais "
         style={{ width: 1000 }}
-        value={countries}
+        value={search}
         onChange={handleChange}
       />
+
       <div className="container-button">
         <h3>Group by:</h3>
-        <Button type="primary" onClick={() => setLanguagesCountry(false)}>
+        <Button type="primary" onClick={() => setLanguagesCountry("continent")}>
           Continent
         </Button>
-        <Button onClick={() => setLanguagesCountry(true)}>Language</Button>
+        <Button onClick={() => setLanguagesCountry("language")}>
+          Language
+        </Button>
       </div>
       <Apollo
-        dataGrafo={dataGrafo}
-        setDataGrafo={setDataGrafo}
-        setDataGrafoResult={setDataGrafoResult}
+        dataGraph={dataGraph}
+        setDataGraph={setDataGraph}
+        setDataGraphResult={setDataGraphResult}
         languagesCountry={languagesCountry}
       />
     </div>
