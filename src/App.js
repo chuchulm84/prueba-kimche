@@ -11,7 +11,11 @@ const App = () => {
   const [search, setsearch] = useState("");
   const [languagesCountry, setLanguagesCountry] = useState("");
 
-  console.log("languagesCountry", languagesCountry);
+  useEffect(() => {
+    if (search === "") {
+      setDataGraph(null);
+    }
+  }, [search]);
 
   const handleChange = (e) => {
     const { value } = e.target;
@@ -48,30 +52,36 @@ const App = () => {
 
   return (
     <div className="container-app">
-      <h1>COUNTRY SEARCH</h1>
-      <Input
-        prefix={<SearchOutlined />}
-        placeholder="Ingrese Pais "
-        style={{ width: 1000 }}
-        value={search}
-        onChange={handleChange}
-      />
-
-      <div className="container-button">
-        <h3>Group by:</h3>
-        <Button type="primary" onClick={() => setLanguagesCountry("continent")}>
-          Continent
-        </Button>
-        <Button onClick={() => setLanguagesCountry("language")}>
-          Language
-        </Button>
+      <div className="container-options">
+        <h1>COUNTRY SEARCH</h1>
+        <Input
+          prefix={<SearchOutlined />}
+          placeholder="Ingrese Pais "
+          value={search}
+          onChange={handleChange}
+          className="input-settings"
+        />
+        <div className="container-button">
+          <h3>Group by:</h3>
+          <Button
+            type="primary"
+            onClick={() => setLanguagesCountry("continent")}
+          >
+            Continent
+          </Button>
+          <Button onClick={() => setLanguagesCountry("language")}>
+            Language
+          </Button>
+        </div>
       </div>
-      <Apollo
-        dataGraph={dataGraph}
-        setDataGraph={setDataGraph}
-        setDataGraphResult={setDataGraphResult}
-        languagesCountry={languagesCountry}
-      />
+      <div className="container-search">
+        <Apollo
+          dataGraph={dataGraph}
+          setDataGraph={setDataGraph}
+          setDataGraphResult={setDataGraphResult}
+          languagesCountry={languagesCountry}
+        />
+      </div>
     </div>
   );
 };

@@ -3,31 +3,44 @@
 }
 
 .container-app {
+  background-color: rgb(246, 255, 255);
   display: flex;
-  justify-content: flex-start;
+  flex-wrap: nowrap;
+  justify-content: center;
   align-items: center;
-  flex-direction: column;
   padding: 2rem;
+  width: 100vw;
 
-  h1 {
-    font-weight: 1000;
-  }
+  .container-options {
+    background-color: rgb(254, 255, 255);
+    align-self: flex-start;
+    border-radius: 10px;
+    padding: 50px;
+    box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
+      rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+    margin-right: 20px;
 
-  .input-settings {
-    width: 50%;
-  }
-
-  .container-button {
-    display: flex;
-    padding: 5rem;
-
-    h3 {
-      font-weight: 700;
+    h1 {
+      text-align: center;
+      font-weight: 1000;
     }
 
-    button {
-      width: 200px;
-      margin-left: 10px;
+    .input-settings {
+      width: 100%;
+    }
+
+    .container-button {
+      display: flex;
+      padding: 5rem;
+
+      h3 {
+        font-weight: 700;
+      }
+
+      button {
+        width: 200px;
+        margin-left: 10px;
+      }
     }
   }
 }

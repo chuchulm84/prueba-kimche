@@ -22,7 +22,7 @@ const COUNTRIES_LIST = gql`
 `;
 
 export const Apollo = ({ dataGraph, setDataGraphResult, languagesCountry }) => {
-  const { loading, error, data } = useQuery(COUNTRIES_LIST);
+  const { data } = useQuery(COUNTRIES_LIST);
 
   useEffect(() => {
     if (data) {
@@ -30,33 +30,36 @@ export const Apollo = ({ dataGraph, setDataGraphResult, languagesCountry }) => {
     }
   }, [data]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
   return (
-    dataGraph &&
-    dataGraph.map(({ code, name, emoji, continent, languages }) => (
-      <div className="container" key={code}>
-        <h2>
-          {languagesCountry === "language"
-            ? languages.map((e) => e.name).join(", ")
-            : continent.name}{" "}
-        </h2>
-        <div className="container-box">
-          <p>
-            <label>Bandera:</label> {emoji}
-          </p>
-          <p>
-            <label>Codigo:</label> {code}
-          </p>
-          <p>
-            <label>Pais:</label> {name}
-          </p>
-          <p>
-            <label>Lenguaje:</label> {languages.map((e) => e.name).join(", ")}
-          </p>
-        </div>
-      </div>
-    ))
+    <div className="container">
+      {dataGraph &&
+        dataGraph.map(({ code, name, emoji, continent, languages }) => (
+          <div key={code}>
+            <div>
+              <h2>
+                {languagesCountry === "language"
+                  ? languages.map((e) => e.name).join(", ")
+                  : continent.name}{" "}
+              </h2>
+            </div>
+
+            <div className="container-box">
+              <p>
+                <label>Bandera:</label> {emoji}
+              </p>
+              <p>
+                <label>Codigo:</label> {code}
+              </p>
+              <p>
+                <label>Pais:</label> {name}
+              </p>
+              <p>
+                <label>Lenguaje:</label>{" "}
+                {languages.map((e) => e.name).join(", ")}
+              </p>
+            </div>
+          </div>
+        ))}
+    </div>
   );
 };
